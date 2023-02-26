@@ -509,7 +509,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "8893
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic18f4550.h: 8893: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"38 ./system.h
+"38 ./Hormiga4550.h
 [p x PLLDIV = 5 ]
 "39
 [p x CPUDIV = OSC3_PLL4 ]
