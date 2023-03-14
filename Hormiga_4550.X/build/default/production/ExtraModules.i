@@ -1,4 +1,4 @@
-# 1 "application.c"
+# 1 "ExtraModules.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "application.c" 2
+# 1 "ExtraModules.c" 2
 # 1 "./Hormiga4550.h" 1
 # 34 "./Hormiga4550.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\xc.h" 1 3
@@ -5937,16 +5937,93 @@ char RxIdle(void);
 char TxRegisterFull(void);
 void SerialPrintLn(char *dataText);
 void SerialPrint(char *dataText);
-# 1 "application.c" 2
+# 1 "ExtraModules.c" 2
+
+# 1 "./ExtraModules.h" 1
+# 16 "./ExtraModules.h"
+void TMR0Config(char mode);
+double Time(void);
+unsigned long milliseconds( unsigned long mil);
+void TMR1Config(void);
+double PulseIn(char pin);
+double Frequency(void);
+# 2 "ExtraModules.c" 2
 
 
-
-void setup()
+unsigned long millis = 0;
+void TMR0Config(char mode)
 {
+    switch(mode)
+    {
+        case 1:
 
+            T0CON = 0x17;
+            INTCONbits.T0IE = 1;
+            T0CONbits.TMR0ON = 1;
+            T0CON = 0xC4;
+
+
+            TMR0L = 0x00;
+            TMR0H = 0x00;
+            INTCONbits.TMR0IF = 0;
+            (INTCONbits.GIE = 1);
+            break;
+        case 0:
+
+            break;
+    }
+}
+double Time(void)
+{
+    return (millis * 1.4)+(TMR0 * 0.000021);
 }
 
-void loop()
+void __attribute__((picinterrupt(""))) TimerOverflow(void)
 {
+    if(INTCONbits.TMR0IF == 1)
+    {
 
+        millis++;
+        INTCONbits.TMR0IF = 0;
+        TMR0L = 0x00;
+        TMR0H = 0x00;
+
+    }
+}
+void TMR1Config(void)
+{
+    T1CON = 0xB6;
+}
+double PulseIn(char pin)
+{
+    double dtime;
+    double now = Time();
+    while(digitalRead(pin) == 1);
+    dtime = Time() - now;
+    return dtime;
+}
+double Frequency(void)
+{
+    double now, lastTime, dtime, dData, freq;
+    int nowData, lastData;
+    double HighFrqK = 1.175;
+    lastTime = now;
+    now = Time();
+    T1CONbits.TMR1ON = 1;
+    delay(100);
+    T1CONbits.TMR1ON = 0;
+    nowData = TMR1L;
+    nowData += TMR1H * 256;
+    dData = lastData - nowData;
+    dtime = now - lastTime;
+    lastData = nowData;
+    freq = dData / dtime;
+    if(freq < 0)
+    {
+        return -HighFrqK * freq;
+    }
+    else
+    {
+           return HighFrqK * freq;
+    }
 }

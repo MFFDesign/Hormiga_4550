@@ -1,4 +1,4 @@
-# 1 "main.c"
+# 1 "Hormiga4550.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,9 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main.c" 2
+# 1 "Hormiga4550.c" 2
+# 1 "./Hormiga4550.h" 1
+# 34 "./Hormiga4550.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -5617,7 +5619,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(unsigned char);
 # 32 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\xc.h" 2 3
-# 1 "main.c" 2
+# 34 "./Hormiga4550.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 1 3
 # 22 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 3
@@ -5702,7 +5704,7 @@ typedef int32_t int_fast32_t;
 typedef uint32_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
 # 131 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 2 3
-# 2 "main.c" 2
+# 35 "./Hormiga4550.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdio.h" 1 3
 # 24 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdio.h" 3
@@ -5840,24 +5842,9 @@ char *ctermid(char *);
 
 
 char *tempnam(const char *, const char *);
-# 3 "main.c" 2
-
-# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\float.h" 1 3
+# 36 "./Hormiga4550.h" 2
 
 
-
-
-
-
-
-int __flt_rounds(void);
-# 46 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\float.h" 3
-# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/float.h" 1 3
-# 46 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\float.h" 2 3
-# 4 "main.c" 2
-
-# 1 "./system.h" 1
-# 38 "./system.h"
 #pragma config PLLDIV = 5
 #pragma config CPUDIV = OSC3_PLL4
 #pragma config USBDIV = 1
@@ -5918,42 +5905,26 @@ int __flt_rounds(void);
 
 
 #pragma config EBTRB = OFF
-# 118 "./system.h"
+
+
+
+
+
+
+
 void configuracionInicial(void);
 void loop(void);
 void setup(void);
 void delay(const int milis);
 void delayMicroseconds(const int micros);
-
 void pinMode(char pin, char mode);
 void digitalWrite(char pin, char mode);
 char digitalRead(char pin);
-
-void ADCConfig(void);
 unsigned int analogRead(char pin);
-void ADCSetParam(char reg, char cmd);
-
-
-void CCPConfig(long pwm1, const int TMR2PRESCALE);
 void CCPDisable(void);
-void analogWrite(char pin, unsigned int value);
-
-
-void TMR0Config(char mode);
-double Time(void);
-unsigned long milliseconds( unsigned long mil);
-void TMR1Config(void);
-double PulseIn(char pin);
-double Frequency(void);
-void TMR2Config(void);
-void TMR3Config(void);
-
-
-void PORTSConfiguration(void);
-
+char analogWrite(char pin, unsigned int value);
 
 char PBRead(char pin);
-double rescale(double x, double in_min, double in_max, double out_min, double out_max);
 
 char SerialBegin(const long int baudRate);
 void SerialWrite(char dataWrite);
@@ -5966,48 +5937,15 @@ char RxIdle(void);
 char TxRegisterFull(void);
 void SerialPrintLn(char *dataText);
 void SerialPrint(char *dataText);
-
-void ComunicationProcess(void);
-void setupComunication(void);
-
-char cocienteEntero(unsigned int numerator, unsigned int denominator);
-char residuo(unsigned int numerator, unsigned int denominator);
-
-void RobotInit(void);
-void adelante(int velocidad);
-void atras(int velocidad);
-void izquierda(int velocidad);
-void derecha(int velocidad);
-void ComunicationInit(void);
-char BTData(void);
-void Attack(const int mode);
-void WeaponInit(void);
-void stop(void);
-void testing(void);
-void runit(void);
+# 1 "Hormiga4550.c" 2
 
 
-void VirtualPortWrite(int data,int portwide, int pins[]);
-void VirtualDigitalWrite(int duty);
-
-
- void Practica1Setup(void);
- void Practica1Loop(void);
- void Practica2Setup(void);
- void Practica2Loop(void);
- void Practica3Setup(void);
- void Practica3Loop(void);
-# 5 "main.c" 2
-
-
-unsigned long millis = 0;
-long freq;
 int SPBRG_Register;
 int main(void)
 {
     configuracionInicial();
     setup();
-    while(1)
+    for(;;)
     {
         loop();
     }
@@ -6016,11 +5954,39 @@ int main(void)
 
 void configuracionInicial(void)
 {
-    ADCConfig();
-    CCPConfig(1000, 16);
-    PORTSConfiguration();
-    TMR0Config(0);
-    TMR1Config();
+
+    TRISAbits.RA0 = 1;
+    TRISAbits.RA1 = 1;
+    TRISAbits.RA2 = 1;
+    TRISAbits.RA3 = 1;
+    ADCON0 = 0x01;
+    ADCON1 = 0x0B;
+    ADCON2 = 0xAB;
+
+    PR2 = 0xFF;
+    T2CON = 0x05;
+    CCPR2L = 0x00;
+    CCPR1L = 0x00;
+    CCP1CON = 0x0C;
+    CCP2CON = 0x0C;
+
+    __asm("CLRF PORTA");
+    __asm("MOVLW 0x3F");
+    __asm("MOVWF TRISA");
+    PORTB = 0x00;
+    TRISB &= 0x00;
+    PORTB = 0x00;
+
+    PORTC = 0x00;
+    TRISC = 0x00;
+    PORTC = 0x00;
+
+    __asm("CLRF PORTD");
+    __asm("MOVLW 0x00");
+    __asm("MOVF TRISD");
+    __asm("CLRF PORTD");
+    PORTE = 0x00;
+    TRISE = 0x07;
 }
 void delay(const int milis)
 {
@@ -6275,305 +6241,129 @@ unsigned int analogRead(char pin)
     {
         case 0:
             ADCON0 = 0x03;
-            while(ADCON0bits.GODONE != 0)
-            {}
+            while(ADCON0bits.GODONE != 0);
             return (ADRESH << 8)+ ADRESL;
             break;
         case 1:
             ADCON0 = 0x07;
-            while(ADCON0bits.GODONE != 0)
-            {}
+            while(ADCON0bits.GODONE != 0);
             return (ADRESH << 8)+ ADRESL;
             break;
         case 2:
             ADCON0 = 0x0B;
-            while(ADCON0bits.GODONE != 0)
-            {}
+            while(ADCON0bits.GODONE != 0);
             return (ADRESH << 8)+ ADRESL;
             break;
         case 3:
             ADCON0 = 0x0F;
-            while(ADCON0bits.GODONE != 0)
-            {}
+            while(ADCON0bits.GODONE != 0);
             return (ADRESH << 8)+ ADRESL;
             break;
     }
 }
-void ADCConfig(void)
-{
-    TRISAbits.RA0 = 1;
-    TRISAbits.RA1 = 1;
-    TRISAbits.RA2 = 1;
-    TRISAbits.RA3 = 1;
-    ADCON0 = 0x01;
-    ADCON1 = 0x0B;
-    ADCON2 = 0xAB;
 
-}
-void ADCSetParam(char reg, char cmd)
-{
-    switch(reg)
-    {
-        case 0:
-            ADCON0 = cmd;
-            break;
-        case 1:
-            ADCON1 = cmd;
-            break;
-        case 2:
-            ADCON2 = cmd;
-            break;
-    }
-}
-void analogWrite(char pin,unsigned int value)
+char analogWrite(char pin, unsigned int value)
 {
     switch(pin)
     {
-        case 4:
-            if(value <1024)
-            {
-                CCPR1L = value >> 2;
-                CCP1CONbits.DC1B1 = value & 2;
-                CCP1CONbits.DC1B0 = value & 1;
-
-            }
+        case 6:
+            CCPR2L = value >> 2;
+            DC2B1 = value & 2;
+            DC2B0 = value & 1;
             break;
-        case 3:
-            if(value <1024)
-            {
-                CCPR2L = value >> 2;
-                CCP2CONbits.DC2B1 = value & 2;
-                CCP2CONbits.DC2B0 = value & 1;
-            }
+        case 5:
+            CCPR1L = value >> 2;
+            DC1B1 = value & 2;
+            DC1B0 = value & 1;
             break;
     }
+    return 0;
 }
-void CCPConfig(long pwm1, const int TMR2PRESCALE)
-{
-    TRISCbits.RC0 = 1;
 
-
-
-    switch(TMR2PRESCALE)
-    {
-        case 1:
-            T2CKPS0 = 0;
-            T2CKPS1 = 0;
-            break;
-        case 4:
-            T2CKPS0 = 1;
-            T2CKPS1 = 0;
-            break;
-        case 16:
-            T2CKPS0 = 1;
-            T2CKPS1 = 1;
-            break;
-    }
-    PR2 = 0xAA;
-    CCP1CONbits.P1M1 = 0;
-    CCP1CONbits.P1M0 = 0;
-    CCP1M3 = 1;
-    CCP1M2 = 1;
-    CCPR1L = 0x00;
-    CCPR2L = 0x00;
-    CCP2CONbits.DC2B0 = 0;
-    CCP2CONbits.DC2B1 = 0;
-    DC1B1 = 0;
-    DC1B0 = 0;
-    CCP2CONbits.CCP2M0 = 0;
-    CCP2CONbits.CCP2M1 = 0;
-    CCP2CONbits.CCP2M2 = 1;
-    CCP2CONbits.CCP2M3 = 1;
-    PIR1bits.TMR2IF = 0;
-    TMR2ON = 1;
-    TRISCbits.RC0 = 0;
-    TRISCbits.RC1 = 0;
-
-
-}
 void CCPDisable(void)
 {
     CCP1M3 = 0;
     CCP1M2 = 0;
 }
 
-void TMR0Config(char mode)
-{
-    switch(mode)
-    {
-        case 1:
-
-            T0CON = 0x17;
-            INTCONbits.T0IE = 1;
-            T0CONbits.TMR0ON = 1;
-            T0CON = 0xC4;
-
-
-            TMR0L = 0x00;
-            TMR0H = 0x00;
-            INTCONbits.TMR0IF = 0;
-            (INTCONbits.GIE = 1);
-            break;
-        case 0:
-
-            break;
-    }
-}
-double Time(void)
-{
-    return (millis * 1.4)+(TMR0 * 0.000021);
-}
-
-void __attribute__((picinterrupt(""))) TimerOverflow(void)
-{
-    if(INTCONbits.TMR0IF == 1)
-    {
-
-        millis++;
-        INTCONbits.TMR0IF = 0;
-        TMR0L = 0x00;
-        TMR0H = 0x00;
-
-    }
-}
-void TMR1Config(void)
-{
-    T1CON = 0xB6;
-}
-double PulseIn(char pin)
-{
-    double dtime;
-    double now = Time();
-    while(digitalRead(pin) == 1)
-    {
-
-    }
-    dtime = Time() - now;
-    return dtime;
-}
-double Frequency(void)
-{
-    double now, lastTime, dtime, dData, freq;
-    int nowData, lastData;
-    double HighFrqK = 1.175;
-    lastTime = now;
-    now = Time();
-    T1CONbits.TMR1ON = 1;
-    delay(100);
-    T1CONbits.TMR1ON = 0;
-    nowData = TMR1L;
-    nowData += TMR1H * 256;
-    dData = lastData - nowData;
-    dtime = now - lastTime;
-    lastData = nowData;
-    freq = dData / dtime;
-    if(freq < 0)
-    {
-        return -HighFrqK * freq;
-    }
-    else
-    {
-           return HighFrqK * freq;
-    }
-}
-
-void TMR2Config(void)
-{
-
-}
-void TMR3Config(void)
-{
-
-}
-void PORTSConfiguration(void)
-{
-    TRISA = 0x3F;
-    TRISB = 0xFF;
-    TRISC = 0xCF;
-    TRISD = 0xFF;
-    TRISEbits.RE0 = 1;
-    TRISEbits.RE1 = 1;
-    TRISEbits.RE2 = 1;
-}
 char PBRead(char pin)
 {
     switch(pin)
     {
         case 0:
-            return PORTEbits.RE0;
+            if(PORTEbits.RE0)
+            {
+                delay(100);
+                return (PORTEbits.RE0) ? 1 : 0;
+            }
+            else
+            {
+                return 0;
+            }
             break;
         case 1:
-            return PORTEbits.RE1;
+            if(PORTEbits.RE1)
+            {
+                delay(100);
+                return (PORTEbits.RE1) ? 1 : 0;
+            }
+            else
+            {
+                return 0;
+            }
             break;
         case 2:
-            return PORTEbits.RE2;
+            if(PORTEbits.RE2)
+            {
+                delay(120);
+                return (PORTEbits.RE2) ? 1 : 0;
+            }
+            else
+            {
+                return 0;
+            }
             break;
     }
 }
 
-double rescale(double x, double in_min, double in_max, double out_min, double out_max)
+char SerialBegin(const long int BaudRate)
 {
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+
+
+
+ unsigned int x;
+ BRGH = 0;
+ x = (48000000 / (64 * BaudRate)) - 1;
+ if(x > 255)
+ {
+  BRGH = 1;
+  x = (48000000 / (16 * BaudRate)) - 1;
+  SPBRG = x;
+  SYNC = 0;
+  SPEN = 1;
+  TRISC7 = 1;
+  TRISC6 = 1;
+  CREN = 1;
+  TXEN = 1;
+        TXREG = 0x00;
+        RCREG = 0x00;
+  return 0;
+ }
+ else
+ {
+  SPBRG = x;
+  SYNC = 0;
+  SPEN = 1;
+  TRISC7 = 1;
+  TRISC6 = 1;
+  CREN = 1;
+  TXEN = 1;
+        TXREG = 0x00;
+        RCREG = 0x00;
+  return 1;
+ }
 }
 
-char SerialBegin(const long int baudRate)
-{
-    unsigned long int x;
-    SYNC = 0;
-    SPEN = 1;
-    TRISC6 = 1;
-    TRISC7 = 1;
-    CREN = 1;
-    TXEN = 1;
-    if(baudRate == 300)
-    {
-
-    }
-    else if(baudRate == 1200)
-    {
-        BRGH = 1;
-        SPBRG = 0xC0;
-    }
-    else if(baudRate == 2400)
-    {
-        BRGH = 1;
-        SPBRG = 0x60;
-    }
-    else if( baudRate == 4800)
-    {
-        BRGH = 1;
-        SPBRG = 0x30;
-    }
-    else if(baudRate == 9600)
-    {
-        SPBRG = 0x98;
-    }
-    else if(baudRate == 19200)
-    {
-        SPBRG = 0x4C;
-    }
-    else if(baudRate == 38400)
-    {
-        SPBRG = 0x26;
-    }
-    else if(baudRate == 57600)
-    {
-        SPBRG = 0x13;
-    }
-    else if(baudRate == 74880)
-    {
-        SPBRG = 0x09;
-    }
-    else if(baudRate == 115200)
-    {
-        SPBRG = 0x04;
-    }
-
-
-
-
-
-}
 char TxRegisterFull(void)
 {
     return TRMT;
@@ -6596,10 +6386,6 @@ char SerialErrors(void)
     {
         return 0;
     }
-}
-char RxIdle(void)
-{
-    return RCIDL;
 }
 void SerialWrite(char dataWrite)
 {
@@ -6649,14 +6435,4 @@ void SerialReadText(char *Output, unsigned int lenght)
     {
         Output[i] = SerialRead();
     }
-}
-
-void VirtualDigitalWrite(int duty)
-{
-
-}
-
-void VirtualPortWrite(int data,int portwide, int pins[])
-{
-
 }
